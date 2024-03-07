@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de funcionarios</title>
+    <style>
+        body {
+            font-family: Helvetica, sans-serif;
+            background-color: #f0efef;
+            text-align: center;
+        }
+
+        main {
+            padding: 8px;
+        }
+
+        h1 {
+            margin: auto;
+        }
+
+        h2 {
+            margin-bottom: 5px;
+
+        }
+
+        #conteudo-principal {
+            width: 70vw;
+            margin: auto;
+            height: auto;
+            background-color: rgb(255, 255, 255);
+        }
+
+        input {
+            display: block;
+            margin: auto;
+        }
+
+        label {
+            display: inline-block;
+            margin-top: 15px;
+            margin-bottom: 3px;
+            font-size: 15px;
+        }
+
+        button {
+            width: 100px;
+            margin: 20px 0;
+
+        }
+
+        select {
+            display: block;
+            margin: auto;
+
+        }
+
+        fieldset {
+            border: 0px;
+            display: none;
+        }
+
+        li {
+            margin: auto;
+            list-style-type: none;
+            padding: 10px;
+            border: 1px solid rgb(184, 184, 184);
+            background-color: rgb(247, 247, 247);
+            width: 1200px;
+        }
+
+        ul {
+            padding: 0px;
+        }
+
+        .botao-cadastro {
+            margin-left: 50px;
+            border-radius: 20px;
+            font-size: small;
+            font-weight: bold;
+            white-space: nowrap;
+            padding: 7px;
+            border: 1px solid rgb(165, 165, 165);
+            box-sizing: content-box;
+            transition: 0.2s;
+            background-color: white;
+        }
+
+        .botao-cadastro:hover {
+            background-color: rgb(221, 221, 221);
+            border-color: rgb(70, 70, 70);
+            ;
+        }
+    </style>
+</head>
+
+<body>
+    <main id="conteudo-principal">
+        <h1> Bem-vindo à página de cadastro de funcionarios!</h1>
+        <hr>
+        <div>
+            <h2> Insira as informações do funcionario</h2>
+            <form>
+                <label>Nome do funcionário</label>
+                <input type="text" placeholder="Insira o nome" required>
+                <label>Idade</label>
+                <input type="number" placeholder="Idade" required>
+                <label>Cargo</label>
+                <select required>
+                    <option value="00" selected>Selecione um cargo</option>
+                    <option value="01">Gerente</option>
+                    <option value="02">Desenvolvedor</option>
+                </select>
+                <fieldset id="departamento">
+                    <label>Departamento</label>
+
+                    <input type="text" placeholder="Insira o departamento">
+                </fieldset>
+                <fieldset id="linguagem">
+                    <label>Linguagem de programação</label>
+                    <input type="text" placeholder="Insira a linguagem">
+                </fieldset>
+                <button type="submit">Cadastrar</button>
+            </form>
+            <hr>
+            <h2>Funcionários Cadastrados</h2>
+            <div id="cadastro-funcionario">
+                <p>Ainda não há funcionarios cadastrados.</p>
+            </div>
+
+        </div>
+    </main>
+    <script>
+        // =========== Classes ===========
+        class Funcionario {
+
+            constructor(nome, idade, cargo) {
+                this.nome = nome,
+                    this.idade = idade,
+                    this.cargo = cargo;
+            }
+            seApresentar() {
+                alert("Olá! Sou o " + this.nome + ", tenho " + this.idade + " anos de idade e meu cargo é de " + this.cargo + ". Muito prazer!");
+            };
+            trabalhar() {
+                alert("* " + this.nome + " vai até sua mesa para iniciar o dia de trabalho como " + this.cargo + " *");
+            }
+        };
+
+        class Gerente extends Funcionario {
+            constructor(nome, idade, cargo, departamento) {
+                super(nome, idade, cargo),
+                    this.departamento = departamento;
+            };
+            gerenciar() {
+                alert("* " + this.nome + " começa a gerenciar o setor de " + this.departamento + " da empresa *");
+            };
+        };
+
+        class Desenvolvedor extends Funcionario {
+            constructor(nome, idade, cargo, linguagem) {
+                super(nome, idade, cargo),
+                    this.linguagem = linguagem;
+            };
+
+            programar() {
+                alert("* " + this.nome + " abre o notebook e começa a programar na linguagem " + this.linguagem + " que é sua especialidade*");
+            };
+        };
+
+        // ========== Validação do input Nome ==========
+
+        const validateName = (name) => {
+            if (typeof name !== "string" || name.trim().length <= 0 || !isNaN(parseInt(name))) {
+                throw new Error("Você precisa preencher seu nome corretamente!");
+            } return name;
+        };
+        // ========== Validação Idade ==========
+
+        const validateIdade = (idade) => {
+            if (idade < 18) {
+                throw new Error("Você precisa ter mais de 18 anos para trabalhar aqui.")
+
+            } return idade;
+        };
+
+        // ========== Validação Departamento ==========
+
+        const validateDepto = (cargo, departamento) => {
+            switch (cargo) {
+                case '00': return null; break;
+                case '01': if (typeof departamento !== "string" || departamento.trim().length <= 0) {
+                    throw new Error("Você precisa preencher seu departamento");
+                } return departamento;
+                case '02': return null; break;
+
+
+            }
+        };
+
+        //  ========== Validação Linguagem programação ===========
+
+        const validateLing = (cargo, ling) => {
+            switch (cargo) {
+                case '00': ""; break;
+                case '01': ""; break;
+                case '02':
+
+                    if (typeof ling !== "string" || ling.trim().length <= 0) {
+                        throw new Error("Você precisa preencher o campo de linguagem!");
+                    }; break;
+            }; return ling;
+        };
+
+        // ========== Validação Cargo ============
+        const validateCargo = (cargo) => {
+            if (cargo == '00') {
+                throw new Error("Você precisa selecionar um cargo!");
+            } return cargo;
+        };
+
+
+        // ========== tratamento de erros validação ==========
+
+
+        let nome_digitado
+        let idade_digitado
+        let cargo_selecionado
+        let depto_digitado
+        let linguagem_digitado
+        function validate_informations() {
+            try {
+                nome_digitado = document.getElementsByTagName("input")[0].value;
+                idade_digitado = document.getElementsByTagName("input")[1].value;
+                cargo_selecionado = document.getElementsByTagName("select")[0].value;
+                depto_digitado = document.getElementsByTagName("input")[2].value;
+                linguagem_digitado = document.getElementsByTagName("input")[3].value;
+                validateCargo(cargo_selecionado);
+                validateName(nome_digitado);
+
+                validateIdade(idade_digitado);
+
+
+
+                validateDepto(cargo_selecionado, depto_digitado);
+
+                validateLing(cargo_selecionado, linguagem_digitado);
+
+                return true;
+
+            } catch (error) {
+                alert("Ocorreu um erro: " + error.message);
+            };
+        };
+
+        // ========== Criação de funcionarios ===========
+
+
+        const funcionarioTemp = [];
+        function createDeployer() {
+            if (!funcionarioexistente()) {
+                let funcionario;
+                if (cargo_selecionado == '01') {
+                    funcionario = new Gerente(nome_digitado, idade_digitado, "Gerente", depto_digitado);
+
+                } else if (cargo_selecionado == '02') {
+                    funcionario = new Desenvolvedor(nome_digitado, idade_digitado, "Desenvolvedor", linguagem_digitado);
+
+                };
+
+
+                funcionarioTemp.push(funcionario);
+                clearContent();
+
+                return funcionario;
+
+
+            } else {
+                throw new Error("Funcionario já cadastrado!");
+            };
+        };
+
+        // =========== Checagem funcionario existente no array ============
+
+        const funcionarioexistente = () => {
+            for (n of funcionarioTemp) {
+                if (n.nome.trim() == nome_digitado.trim()) {
+
+                    return true;
+                };
+
+            };
+            return false;
+
+        };
+
+        // ========== Checagem de funcionarios cadastrados
+        let executado = false;
+
+        function clearContent() {
+            if (!executado) {
+                let emptyText = document.getElementsByTagName("p")[0];
+                emptyText.style.display = "none";
+                executado = true;
+
+            };
+        };
+
+
+        // =========== Input de informações DOM ===========
+
+
+        function inputDOM() {
+            let a = document.createElement("ul");
+
+            let div_funcionario = document.getElementById("cadastro-funcionario");
+            div_funcionario.appendChild(a);
+
+
+
+            funcionarioTemp.forEach((r, i) => {
+                let funcionarioJaCadastrado = div_funcionario.textContent.includes(r.nome);
+
+                switch (cargo_selecionado) {
+                    case '00': return null; break;
+                    case '01': if (!funcionarioJaCadastrado) {
+                        let b = document.createElement("li");
+                        b.innerHTML = `<strong>Nome:</strong> ${r.nome}, <strong>Idade:</strong> ${r.idade}, <strong>Cargo:</strong> ${r.cargo}, <strong>Departamento:</strong> ${r.departamento}`;
+
+                        a.appendChild(b);
+                        // =========== Botão Apresentar-se ==========
+                        let botaoApresentar = document.createElement("button");
+                        botaoApresentar.innerHTML = "Apresentar-se";
+                        botaoApresentar.setAttribute("class", "botao-cadastro");
+                        botaoApresentar.setAttribute("data-index", i);
+                        botaoApresentar.onclick = function () {
+                            let botaoindex = this.getAttribute("data-index");
+                            funcionarioTemp[botaoindex].seApresentar();
+                        };
+
+                        b.appendChild(botaoApresentar)
+                        // =========== Botão Trabalhar ==========
+                        let botaoTrabalhar = document.createElement("button");
+                        botaoTrabalhar.innerHTML = "Trabalhar";
+                        botaoTrabalhar.setAttribute("data-index", i);
+                        botaoTrabalhar.setAttribute("class", "botao-cadastro");
+                        botaoTrabalhar.onclick = function () {
+                            let botaoindex = this.getAttribute("data-index");
+                            funcionarioTemp[botaoindex].trabalhar();
+                        };
+                        b.appendChild(botaoTrabalhar);
+                        // =========== Botão Gerenciar ==========
+                        let botaoGerenciar = document.createElement("button");
+                        botaoGerenciar.innerHTML = "Gerenciar";
+                        botaoGerenciar.setAttribute("data-index", i);
+                        botaoGerenciar.setAttribute("class", "botao-cadastro");
+                        botaoGerenciar.onclick = function () {
+                            let botaoindex = this.getAttribute("data-index");
+                            funcionarioTemp[botaoindex].gerenciar();
+                        };
+                        b.appendChild(botaoGerenciar);
+                    }; break;
+
+                    case '02': if (!funcionarioJaCadastrado) {
+
+                        let b = document.createElement("li");
+                        b.innerHTML = `<strong>Nome:</strong> ${r.nome}, <strong>Idade:</strong> ${r.idade}, <strong>Cargo:</strong> ${r.cargo}, <strong>Linguagem:</strong> ${r.linguagem}`;
+
+                        a.appendChild(b);
+                        // =========== Botão Apresentar-se ==========
+                        let botaoApresentar = document.createElement("button");
+                        botaoApresentar.innerHTML = "Apresentar-se";
+                        botaoApresentar.setAttribute("data-index", i);
+                        botaoApresentar.setAttribute("class", "botao-cadastro");
+                        botaoApresentar.onclick = function () {
+                            let botaoindex = this.getAttribute("data-index");
+                            funcionarioTemp[botaoindex].seApresentar();
+                        };
+                        b.appendChild(botaoApresentar);
+                        // =========== Botão Trabalhar ==========
+                        let botaoTrabalhar = document.createElement("button");
+                        botaoTrabalhar.innerHTML = "Trabalhar";
+                        botaoTrabalhar.setAttribute("data-index", i);
+                        botaoTrabalhar.setAttribute("class", "botao-cadastro");
+                        botaoTrabalhar.onclick = function () {
+                            let botaoindex = this.getAttribute("data-index");
+                            funcionarioTemp[botaoindex].trabalhar();
+                        };
+                        b.appendChild(botaoTrabalhar);
+                        // =========== Botão Programar ==========
+                        let botaoProgramar = document.createElement("button");
+                        botaoProgramar.innerHTML = "Programar";
+                        botaoProgramar.setAttribute("data-index", i);
+                        botaoProgramar.setAttribute("class", "botao-cadastro");
+                        botaoProgramar.onclick = function () {
+                            let botaoindex = this.getAttribute("data-index");
+                            funcionarioTemp[botaoindex].programar();
+                        };
+                        b.appendChild(botaoProgramar);
+
+                    }; break;
+                };
+
+
+
+            });
+        };
+
+
+
+
+        // ========== Evento submit do form ==========
+
+        const form = document.getElementsByTagName("form")[0];
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
+            if (validate_informations()) {
+                try {
+                    createDeployer();
+                    inputDOM();
+                    form.reset();
+                }
+                catch (error) {
+                    alert("Ops, ocorreu um erro: " + error.message);
+
+                };
+
+            };
+
+        });
+
+        // ========== Evento Change form ==========
+
+        const select = document.getElementsByTagName("select")[0];
+        select.addEventListener("change", () => {
+            if (select.value == '02') {
+                document.getElementById("linguagem").style.display = "block";
+            } else {
+                document.getElementById("linguagem").style.display = "none";
+            };
+
+            if (select.value == '01') {
+                document.getElementById("departamento").style.display = "block";
+            } else {
+                document.getElementById("departamento").style.display = "none";
+            }
+        });
+        // Add comentario aqui bora lá
+    </script>
+</body>
+
+</html>
