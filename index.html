@@ -171,11 +171,27 @@
 
         // ========== Validação do input Nome ==========
 
-        const validateName = (name) => {
-            if (typeof name !== "string" || name.trim().length <= 0 || !isNaN(parseInt(name))) {
-                throw new Error("Você precisa preencher seu nome corretamente!");
-            } return name;
+        const IsValidName = (name) => {
+            if (typeof name !== "string") {
+                return false;
+            };
+
+            if (name.trim().length <= 0) {
+                return false;
+            };
+
+            if (!isNaN(parseInt(name))) {
+                return false;
+            };
+            return true;
         };
+
+        const ValidatedName = (name) => {
+            if (IsValidName(name)) {
+                return name;
+            } throw new Error("Você precisa preencher seu nome corretamente!");
+        };
+
         // ========== Validação Idade ==========
 
         const validateIdade = (idade) => {
@@ -187,33 +203,88 @@
 
         // ========== Validação Departamento ==========
 
-        const validateDepto = (cargo, departamento) => {
-            switch (cargo) {
-                case '00': return null; break;
-                case '01': if (typeof departamento !== "string" || departamento.trim().length <= 0) {
-                    throw new Error("Você precisa preencher seu departamento");
-                } return departamento;
-                case '02': return null; break;
 
+        const isValidDpto = (departamento) => {
+            if (typeof departamento !== "string") {
+                return false;
+            };
 
-            }
+            if (departamento.trim().length <= 0) {
+                return false;
+            };
+
+            return true;
+
         };
+
+        ValidatedDpto = (departamento, cargo) => {
+            if (cargo == "00" || cargo == "02") {
+                return null;
+            };
+
+            if (isValidDpto(departamento)) {
+                return departamento;
+            };
+
+            throw new Error("Você precisa preencher seu departamento");
+
+        };
+
+
+        // const validateDepto = (cargo, departamento) => {
+        //     switch (cargo) {
+        //         case '00': return null; break;
+        //         case '01': if (typeof departamento !== "string" || departamento.trim().length <= 0) {
+        //             throw new Error("Você precisa preencher seu departamento");
+        //         } return departamento;
+        //         case '02': return null; break;
+
+
+        //     }
+        // };
 
         //  ========== Validação Linguagem programação ===========
 
-        const validateLing = (cargo, ling) => {
-            switch (cargo) {
-                case '00': ""; break;
-                case '01': ""; break;
-                case '02':
+        const isValidLing = (linguagem) => {
+            if (linguagem !== "string") {
+                return false;
+            };
+            if (linguagem.trim().length <= 0) {
+                return false;
+            };
 
-                    if (typeof ling !== "string" || ling.trim().length <= 0) {
-                        throw new Error("Você precisa preencher o campo de linguagem!");
-                    }; break;
-            }; return ling;
+            return true;
+
         };
 
+
+        const ValidatedLing = (linguagem, cargo) => {
+
+            if (cargo == "00" || cargo == "01") {
+                return null;
+            };
+            if (isValidLing(linguagem)) {
+                return linguagem;
+            };
+
+            throw new Error("Você precisa preencher o campo de linguagem corretamente!");
+        };
+
+
+        // const validateLing = (cargo, ling) => {
+        //     switch (cargo) {
+        //         case '00': ""; break;
+        //         case '01': ""; break;
+        //         case '02':
+
+        //             if (typeof ling !== "string" || ling.trim().length <= 0) {
+        //                 throw new Error("Você precisa preencher o campo de linguagem!");
+        //             }; break;
+        //     }; return ling;
+        // };
+
         // ========== Validação Cargo ============
+
         const validateCargo = (cargo) => {
             if (cargo == '00') {
                 throw new Error("Você precisa selecionar um cargo!");
@@ -237,15 +308,15 @@
                 depto_digitado = document.getElementsByTagName("input")[2].value;
                 linguagem_digitado = document.getElementsByTagName("input")[3].value;
                 validateCargo(cargo_selecionado);
-                validateName(nome_digitado);
+                ValidatedName(nome_digitado);
 
                 validateIdade(idade_digitado);
 
 
 
-                validateDepto(cargo_selecionado, depto_digitado);
+                ValidatedDpto(depto_digitado, cargo_selecionado);
 
-                validateLing(cargo_selecionado, linguagem_digitado);
+                ValidatedLing(linguagem_digitado, cargo_selecionado);
 
                 return true;
 
@@ -446,7 +517,6 @@
                 document.getElementById("departamento").style.display = "none";
             }
         });
-        // Add comentario aqui bora lá
     </script>
 </body>
 
