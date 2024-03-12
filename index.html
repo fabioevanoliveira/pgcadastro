@@ -246,12 +246,12 @@
         //  ========== Validação Linguagem programação ===========
 
         const isValidLing = (linguagem) => {
-            if (linguagem !== "string") {
+            if (typeof linguagem !== "string") {
                 return false;
-            };
+            }
             if (linguagem.trim().length <= 0) {
                 return false;
-            };
+            }
 
             return true;
 
@@ -300,6 +300,7 @@
         let cargo_selecionado
         let depto_digitado
         let linguagem_digitado
+        let cargo_selecionado_text
         function validate_informations() {
             try {
                 nome_digitado = document.getElementsByTagName("input")[0].value;
@@ -307,6 +308,8 @@
                 cargo_selecionado = document.getElementsByTagName("select")[0].value;
                 depto_digitado = document.getElementsByTagName("input")[2].value;
                 linguagem_digitado = document.getElementsByTagName("input")[3].value;
+                select_text = document.getElementsByTagName("select")[0]
+                option_text = select_text.options[select_text.selectedIndex].text;
                 validateCargo(cargo_selecionado);
                 ValidatedName(nome_digitado);
 
@@ -333,10 +336,10 @@
             if (!funcionarioexistente()) {
                 let funcionario;
                 if (cargo_selecionado == '01') {
-                    funcionario = new Gerente(nome_digitado, idade_digitado, "Gerente", depto_digitado);
+                    funcionario = new Gerente(nome_digitado, idade_digitado, option_text, depto_digitado);
 
                 } else if (cargo_selecionado == '02') {
-                    funcionario = new Desenvolvedor(nome_digitado, idade_digitado, "Desenvolvedor", linguagem_digitado);
+                    funcionario = new Desenvolvedor(nome_digitado, idade_digitado, option_text, linguagem_digitado);
 
                 };
 
@@ -366,7 +369,7 @@
 
         };
 
-        // ========== Checagem de funcionarios cadastrados
+        // ========== Checagem de funcionarios cadastrados ===========
         let executado = false;
 
         function clearContent() {
@@ -379,9 +382,29 @@
         };
 
 
+        // =========== Botão Apresentar-se =============
+
+
         // =========== Input de informações DOM ===========
 
+        function DOM() {
+            let div_funcionario = document.getElementById("cadastro-funcionario");
 
+            funcionarioTemp.forEach((r, i) => {
+                let funcionarioJaCadastrado = div_funcionario.textContent.includes(r.nome);
+
+
+
+
+
+
+            });
+
+
+
+
+
+        }
         function inputDOM() {
             let a = document.createElement("ul");
 
