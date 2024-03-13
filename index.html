@@ -62,20 +62,21 @@
         }
 
         li {
-            margin: auto;
-            list-style-type: none;
-            padding: 10px;
-            border: 1px solid rgb(184, 184, 184);
-            background-color: rgb(247, 247, 247);
-            width: 1200px;
+            margin: 20px;
         }
 
         ul {
             padding: 0px;
+            margin: 30px;
+            list-style-type: none;
+            padding: 10px;
+            border: 1px solid rgb(184, 184, 184);
+            background-color: rgb(247, 247, 247);
+            display: inline-block;
         }
 
         .botao-cadastro {
-            margin-left: 50px;
+            margin: 20px;
             border-radius: 20px;
             font-size: small;
             font-weight: bold;
@@ -384,7 +385,54 @@
 
         // =========== Botão Apresentar-se =============
 
+        const botaoApresentar = (i) => {
+            let a = document.createElement("button");
+            a.innerHTML = "Apresentar-se";
+            a.setAttribute("class", "botao-cadastro");
+            a.setAttribute("data-index", i);
+            a.onclick = function () {
+                let botaoindex = this.getAttribute("data-index");
+                funcionarioTemp[botaoindex].seApresentar();
+            };
+            return a;
+        };
 
+        // =========== Botão Trabalhar ==========
+        const botaoTrabalhar = (i) => {
+            let a = document.createElement("button");
+            a.innerHTML = "Trabalhar";
+            a.setAttribute("data-index", i);
+            a.setAttribute("class", "botao-cadastro");
+            a.onclick = function () {
+                let botaoindex = this.getAttribute("data-index");
+                funcionarioTemp[botaoindex].trabalhar();
+            };
+            return a;
+        };
+        // =========== Botão Gerenciar ==========
+        const botaoGerenciar = (i) => {
+            let a = document.createElement("button");
+            a.innerHTML = "Gerenciar";
+            a.setAttribute("data-index", i);
+            a.setAttribute("class", "botao-cadastro");
+            a.onclick = function () {
+                let botaoindex = this.getAttribute("data-index");
+                funcionarioTemp[botaoindex].gerenciar();
+            };
+            return a;
+        };
+        // =========== Botão Programar ==========
+        const botaoProgramar = (i) => {
+            let a = document.createElement("button");
+            a.innerHTML = "Programar";
+            a.setAttribute("data-index", i);
+            a.setAttribute("class", "botao-cadastro");
+            a.onclick = function () {
+                let botaoindex = this.getAttribute("data-index");
+                funcionarioTemp[botaoindex].programar();
+            };
+            return a;
+        };
         // =========== Input de informações DOM ===========
 
         function DOM() {
@@ -393,113 +441,133 @@
             funcionarioTemp.forEach((r, i) => {
                 let funcionarioJaCadastrado = div_funcionario.textContent.includes(r.nome);
 
-
-
-
-
-
-            });
-
-
-
-
-
-        }
-        function inputDOM() {
-            let a = document.createElement("ul");
-
-            let div_funcionario = document.getElementById("cadastro-funcionario");
-            div_funcionario.appendChild(a);
-
-
-
-            funcionarioTemp.forEach((r, i) => {
-                let funcionarioJaCadastrado = div_funcionario.textContent.includes(r.nome);
-
                 switch (cargo_selecionado) {
                     case '00': return null; break;
                     case '01': if (!funcionarioJaCadastrado) {
-                        let b = document.createElement("li");
-                        b.innerHTML = `<strong>Nome:</strong> ${r.nome}, <strong>Idade:</strong> ${r.idade}, <strong>Cargo:</strong> ${r.cargo}, <strong>Departamento:</strong> ${r.departamento}`;
+                        let b = document.createElement("ul");
+                        b.innerHTML = `
+                        <li><strong>Nome:</strong> ${r.nome}</li>
+                        <li><strong>Idade:</strong> ${r.idade}</li>
+                        <li><strong>Cargo:</strong> ${r.cargo}</li>
+                        <li><strong>Departamento:</strong> ${r.departamento}</li>`;
+                        div_funcionario.appendChild(b);
+                        b.appendChild(botaoApresentar(i));
+                        b.appendChild(botaoTrabalhar(i));
+                        b.appendChild(botaoGerenciar(i));
 
-                        a.appendChild(b);
-                        // =========== Botão Apresentar-se ==========
-                        let botaoApresentar = document.createElement("button");
-                        botaoApresentar.innerHTML = "Apresentar-se";
-                        botaoApresentar.setAttribute("class", "botao-cadastro");
-                        botaoApresentar.setAttribute("data-index", i);
-                        botaoApresentar.onclick = function () {
-                            let botaoindex = this.getAttribute("data-index");
-                            funcionarioTemp[botaoindex].seApresentar();
-                        };
-
-                        b.appendChild(botaoApresentar)
-                        // =========== Botão Trabalhar ==========
-                        let botaoTrabalhar = document.createElement("button");
-                        botaoTrabalhar.innerHTML = "Trabalhar";
-                        botaoTrabalhar.setAttribute("data-index", i);
-                        botaoTrabalhar.setAttribute("class", "botao-cadastro");
-                        botaoTrabalhar.onclick = function () {
-                            let botaoindex = this.getAttribute("data-index");
-                            funcionarioTemp[botaoindex].trabalhar();
-                        };
-                        b.appendChild(botaoTrabalhar);
-                        // =========== Botão Gerenciar ==========
-                        let botaoGerenciar = document.createElement("button");
-                        botaoGerenciar.innerHTML = "Gerenciar";
-                        botaoGerenciar.setAttribute("data-index", i);
-                        botaoGerenciar.setAttribute("class", "botao-cadastro");
-                        botaoGerenciar.onclick = function () {
-                            let botaoindex = this.getAttribute("data-index");
-                            funcionarioTemp[botaoindex].gerenciar();
-                        };
-                        b.appendChild(botaoGerenciar);
                     }; break;
-
                     case '02': if (!funcionarioJaCadastrado) {
-
-                        let b = document.createElement("li");
-                        b.innerHTML = `<strong>Nome:</strong> ${r.nome}, <strong>Idade:</strong> ${r.idade}, <strong>Cargo:</strong> ${r.cargo}, <strong>Linguagem:</strong> ${r.linguagem}`;
-
-                        a.appendChild(b);
-                        // =========== Botão Apresentar-se ==========
-                        let botaoApresentar = document.createElement("button");
-                        botaoApresentar.innerHTML = "Apresentar-se";
-                        botaoApresentar.setAttribute("data-index", i);
-                        botaoApresentar.setAttribute("class", "botao-cadastro");
-                        botaoApresentar.onclick = function () {
-                            let botaoindex = this.getAttribute("data-index");
-                            funcionarioTemp[botaoindex].seApresentar();
-                        };
-                        b.appendChild(botaoApresentar);
-                        // =========== Botão Trabalhar ==========
-                        let botaoTrabalhar = document.createElement("button");
-                        botaoTrabalhar.innerHTML = "Trabalhar";
-                        botaoTrabalhar.setAttribute("data-index", i);
-                        botaoTrabalhar.setAttribute("class", "botao-cadastro");
-                        botaoTrabalhar.onclick = function () {
-                            let botaoindex = this.getAttribute("data-index");
-                            funcionarioTemp[botaoindex].trabalhar();
-                        };
-                        b.appendChild(botaoTrabalhar);
-                        // =========== Botão Programar ==========
-                        let botaoProgramar = document.createElement("button");
-                        botaoProgramar.innerHTML = "Programar";
-                        botaoProgramar.setAttribute("data-index", i);
-                        botaoProgramar.setAttribute("class", "botao-cadastro");
-                        botaoProgramar.onclick = function () {
-                            let botaoindex = this.getAttribute("data-index");
-                            funcionarioTemp[botaoindex].programar();
-                        };
-                        b.appendChild(botaoProgramar);
+                        let b = document.createElement("ul");
+                        b.innerHTML = `
+                        <li><strong>Nome:</strong> ${r.nome}</li>
+                        <li><strong>Idade:</strong> ${r.idade}</li>
+                        <li><strong>Cargo:</strong> ${r.cargo}</li>
+                        <li><strong>Departamento:</strong> ${r.linguagem}</li>`;
+                        div_funcionario.appendChild(b);
+                        b.appendChild(botaoApresentar(i));
+                        b.appendChild(botaoTrabalhar(i));
+                        b.appendChild(botaoProgramar(i));
 
                     }; break;
                 };
-
-
-
             });
         };
+
+        // function inputDOM() {
+        //     let a = document.createElement("ul");
+
+        //     let div_funcionario = document.getElementById("cadastro-funcionario");
+        //     div_funcionario.appendChild(a);
+
+
+
+        //     funcionarioTemp.forEach((r, i) => {
+        //         let funcionarioJaCadastrado = div_funcionario.textContent.includes(r.nome);
+
+        //         switch (cargo_selecionado) {
+        //             case '00': return null; break;
+        //             case '01': if (!funcionarioJaCadastrado) {
+        //                 let b = document.createElement("li");
+        //                 b.innerHTML = `<strong>Nome:</strong> ${r.nome}, <strong>Idade:</strong> ${r.idade}, <strong>Cargo:</strong> ${r.cargo}, <strong>Departamento:</strong> ${r.departamento}`;
+
+        //                 a.appendChild(b);
+        //                 // =========== Botão Apresentar-se ==========
+        //                 let botaoApresentar = document.createElement("button");
+        //                 botaoApresentar.innerHTML = "Apresentar-se";
+        //                 botaoApresentar.setAttribute("class", "botao-cadastro");
+        //                 botaoApresentar.setAttribute("data-index", i);
+        //                 botaoApresentar.onclick = function () {
+        //                     let botaoindex = this.getAttribute("data-index");
+        //                     funcionarioTemp[botaoindex].seApresentar();
+        //                 };
+
+        //                 b.appendChild(botaoApresentar)
+        //                 // =========== Botão Trabalhar ==========
+        //                 let botaoTrabalhar = document.createElement("button");
+        //                 botaoTrabalhar.innerHTML = "Trabalhar";
+        //                 botaoTrabalhar.setAttribute("data-index", i);
+        //                 botaoTrabalhar.setAttribute("class", "botao-cadastro");
+        //                 botaoTrabalhar.onclick = function () {
+        //                     let botaoindex = this.getAttribute("data-index");
+        //                     funcionarioTemp[botaoindex].trabalhar();
+        //                 };
+        //                 b.appendChild(botaoTrabalhar);
+        //                 // =========== Botão Gerenciar ==========
+        //                 let botaoGerenciar = document.createElement("button");
+        //                 botaoGerenciar.innerHTML = "Gerenciar";
+        //                 botaoGerenciar.setAttribute("data-index", i);
+        //                 botaoGerenciar.setAttribute("class", "botao-cadastro");
+        //                 botaoGerenciar.onclick = function () {
+        //                     let botaoindex = this.getAttribute("data-index");
+        //                     funcionarioTemp[botaoindex].gerenciar();
+        //                 };
+        //                 b.appendChild(botaoGerenciar);
+        //             }; break;
+
+        //             case '02': if (!funcionarioJaCadastrado) {
+
+        //                 let b = document.createElement("li");
+        //                 b.innerHTML = `<strong>Nome:</strong> ${r.nome}, <strong>Idade:</strong> ${r.idade}, <strong>Cargo:</strong> ${r.cargo}, <strong>Linguagem:</strong> ${r.linguagem}`;
+
+        //                 a.appendChild(b);
+        //                 // =========== Botão Apresentar-se ==========
+        //                 let botaoApresentar = document.createElement("button");
+        //                 botaoApresentar.innerHTML = "Apresentar-se";
+        //                 botaoApresentar.setAttribute("data-index", i);
+        //                 botaoApresentar.setAttribute("class", "botao-cadastro");
+        //                 botaoApresentar.onclick = function () {
+        //                     let botaoindex = this.getAttribute("data-index");
+        //                     funcionarioTemp[botaoindex].seApresentar();
+        //                 };
+        //                 b.appendChild(botaoApresentar);
+        //                 // =========== Botão Trabalhar ==========
+        //                 let botaoTrabalhar = document.createElement("button");
+        //                 botaoTrabalhar.innerHTML = "Trabalhar";
+        //                 botaoTrabalhar.setAttribute("data-index", i);
+        //                 botaoTrabalhar.setAttribute("class", "botao-cadastro");
+        //                 botaoTrabalhar.onclick = function () {
+        //                     let botaoindex = this.getAttribute("data-index");
+        //                     funcionarioTemp[botaoindex].trabalhar();
+        //                 };
+        //                 b.appendChild(botaoTrabalhar);
+        //                 // =========== Botão Programar ==========
+        //                 let botaoProgramar = document.createElement("button");
+        //                 botaoProgramar.innerHTML = "Programar";
+        //                 botaoProgramar.setAttribute("data-index", i);
+        //                 botaoProgramar.setAttribute("class", "botao-cadastro");
+        //                 botaoProgramar.onclick = function () {
+        //                     let botaoindex = this.getAttribute("data-index");
+        //                     funcionarioTemp[botaoindex].programar();
+        //                 };
+        //                 b.appendChild(botaoProgramar);
+
+        //             }; break;
+        //         };
+
+
+
+        //     });
+        // };
 
 
 
@@ -512,7 +580,7 @@
             if (validate_informations()) {
                 try {
                     createDeployer();
-                    inputDOM();
+                    DOM();
                     form.reset();
                 }
                 catch (error) {
